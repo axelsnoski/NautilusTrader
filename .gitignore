@@ -90,3 +90,7 @@ tests/unit_tests/persistence/catalog/
 !/nautilus_core/adapters/src/databento/test_data/*
 !tests/test_data/large/checksums.json
 !tests/integration_tests/adapters/betfair/responses/*.log
+main.py
+/nautilus_trader/adapters/newsfeed
+test.py
+ws.py
