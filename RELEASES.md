@@ -6,13 +6,15 @@ Released on TBD (UTC).
 None
 
 ### Internal Improvements
+- Improve live engines error logging (will now log all exceptions rather than just `RuntimeError`)
+- Refined `HttpClient` for use directly from Rust
 - Upgraded `datafusion` crate to v43.0.0 (#2056), thanks @twitu
 
 ### Breaking Changes
-None
+- Renamed `TriggerType.LAST_TRADE` to `LAST_PRICE`
 
 ### Fixes
-None
+- Fixed missing venue -> exchange mappings for Tardis integration
 
 ---
 

@@ -1040,14 +1040,14 @@ class TrailingOffsetType(Enum):
 
 class TriggerType(Enum):
     DEFAULT = "DEFAULT"
+    LAST_PRICE = "LAST_PRICE"
+    MARK_PRICE = "MARK_PRICE"
+    INDEX_PRICE = "INDEX_PRICE"
     BID_ASK = "BID_ASK"
-    LAST_TRADE = "LAST_TRADE"
     DOUBLE_LAST = "DOUBLE_LAST"
     DOUBLE_BID_ASK = "DOUBLE_BID_ASK"
     LAST_OR_BID_ASK = "LAST_OR_BID_ASK"
     MID_POINT = "MID_POINT"
-    MARK_PRICE = "MARK_PRICE"
-    INDEX_PRICE = "INDEX_PRICE"
 
 class MovingAverageType(Enum):
     SIMPLE = "SIMPLE"
@@ -4152,7 +4152,7 @@ class TardisMachineClient:
     def __init__(self, base_url: str | None = None, normalize_symbols: bool = True) -> None: ...
     def is_closed(self) -> bool: ...
     def close(self) -> None: ...
-    def replay(self, options: list[ReplayNormalizedRequestOptions], callback: Callable) -> Awaitable[None]: ...
+    def replay(self, instruments: list[InstrumentMiniInfo], options: list[ReplayNormalizedRequestOptions], callback: Callable) -> Awaitable[None]: ...
     def stream(self, instruments: list[InstrumentMiniInfo], options: list[StreamNormalizedRequestOptions], callback: Callable,) -> Awaitable[None]: ...  # noqa
 
 async def run_tardis_machine_replay(config_filepath: str, output_path: str | None = None) -> None: ...
