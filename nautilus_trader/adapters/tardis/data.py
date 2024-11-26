@@ -445,6 +445,17 @@ class TardisDataClient(LiveMarketDataClient):
             LogColor.MAGENTA,
         )
 
+        if start and start.date() == self._clock.utc_now().date():
+            self._log.error(
+                f"Cannot request bars: `start` cannot fall on the current UTC date, was {start.date()} (try an earlier `start`)",
+            )
+            return
+        if start and end and start.date() == end.date():
+            self._log.error(
+                f"Cannot request bars: `start` and `end` cannot fall on the same date, was {start.date()} (try an earlier `start`)",
+            )
+            return
+
         date_now_utc = self._clock.utc_now().date()
 
         replay_request = create_replay_normalized_request_options(
@@ -455,34 +466,32 @@ class TardisDataClient(LiveMarketDataClient):
             data_types=[tardis_data_type],
         )
 
-        bar_capsules: list[object] = []
-
-        await asyncio.ensure_future(
-            self._ws_client.replay(
+        pyo3_bars = await asyncio.ensure_future(
+            self._ws_client.replay_bars(
                 instruments=[instrument_info],
                 options=[replay_request],
-                callback=bar_capsules.append,
             ),
         )
 
-        self._log.info(
-            f"Streamed {len(bar_capsules):,} {bar_type} bars from replay",
+        self._log.debug(
+            f"Streamed {len(pyo3_bars):,} {bar_type} bars from replay",
             LogColor.MAGENTA,
         )
 
         if limit:
-            bar_capsules = bar_capsules[-limit:]
+            pyo3_bars = pyo3_bars[-limit:]
 
-        # Convert capsules to bars and apply time filters in one pass
-        bars: list[Bar] = [
-            bar
-            for pycapsule in bar_capsules
-            if (bar := capsule_to_data(pycapsule))
-            and (start is None or bar.ts_event >= start)
-            and (end is None or bar.ts_event <= end)
+        # Apply time filter
+        pyo3_bars = [
+            pyo3_bar
+            for pyo3_bar in pyo3_bars
+            if (start is None or pyo3_bar.ts_event >= start.value)
+            and (end is None or pyo3_bar.ts_event <= end.value)
         ]
 
-        self._log.info(
+        bars = Bar.from_pyo3_list(pyo3_bars)
+
+        self._log.debug(
             f"Sending response with {len(bars):,} bars after filtering",
             LogColor.MAGENTA,
         )

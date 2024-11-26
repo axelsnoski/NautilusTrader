@@ -3,18 +3,25 @@
 Released on TBD (UTC).
 
 ### Enhancements
-None
+- Improved `Cache` behavior when adding more recent quotes, trades, or bars (now adds to cache)
+- Added `STOP_MARKET` and `STOP_LIMIT` order support for dYdX (#2066), thanks @davidsblom
+- Added `max_reconnection_tries` to data client config for dYdX (#2066), thanks @davidsblom
 
 ### Internal Improvements
-- Improve live engines error logging (will now log all exceptions rather than just `RuntimeError`)
+- Improved live engines error logging (will now log all exceptions rather than just `RuntimeError`)
+- Improved symbol normalization for Tardis
+- Improved historical bar request performance for Tardis
 - Refined `HttpClient` for use directly from Rust
 - Upgraded `datafusion` crate to v43.0.0 (#2056), thanks @twitu
+- Efficiently clean up expired timers in clocks (#2064), thanks @twitu
 
 ### Breaking Changes
 - Renamed `TriggerType.LAST_TRADE` to `LAST_PRICE`
 
 ### Fixes
 - Fixed missing venue -> exchange mappings for Tardis integration
+- Fixed account balance and order status parsing for dYdX (#2067), thanks @davidsblom
+- Fixed parsing best effort opened order status for dYdX (#2068), thanks @davidsblom
 
 ---
 
