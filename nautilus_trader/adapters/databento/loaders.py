@@ -109,9 +109,8 @@ class DatabentoDataLoader:
         # TODO: Temporary workaround
         if dataset == "XNAS.BASIC":
             return "XNAS.ITCH"
-
+        dataset = "DBEQ.BASIC"
         return dataset
-
     def from_dbn_file(  # noqa: C901 (too complex)
         self,
         path: PathLike[str] | str,
