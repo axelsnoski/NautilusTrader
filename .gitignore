@@ -94,3 +94,6 @@ main.py
 /nautilus_trader/adapters/newsfeed
 test.py
 ws.py
+nautilus_trader/data/bk
+nautilus_trader/common/bk
+nautilus_trader/adapters/databento/loaders.py
