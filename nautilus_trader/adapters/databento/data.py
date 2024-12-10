@@ -651,10 +651,13 @@ class DatabentoDataClient(LiveMarketDataClient):
                 self._log.error(f"Cannot subscribe: {e}")
                 return
 
+            start = (LiveClock().timestamp_ns() - (min(int(params.get("start", 0)) if params else 0, 86400) * 1_000_000_000)) if params and "start" in params else None
+
             live_client = self._get_live_client(dataset)
             live_client.subscribe(
                 schema=schema.value,
                 symbols=[bar_type.instrument_id.symbol.value],
+                start=start
             )
             await self._check_live_client_started(dataset, live_client)
         except asyncio.CancelledError:
