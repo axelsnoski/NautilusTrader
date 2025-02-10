@@ -562,5 +562,17 @@
     "dataset": "DBEQ.MAX",
     "venue": "DBEQ",
     "description": "DBEQ Max - Consolidated"
+  },
+  {
+    "publisher_id": 95,
+    "dataset": "EQUS.MINI",
+    "venue": "EQUS",
+    "description": "Databento US Equities Mini"
+  },
+  {
+    "publisher_id": 96,
+    "dataset": "XNYS.TRADES",
+    "venue": "EQUS",
+    "description": "NYSE Trades - Consolidated"
   }
 ]
